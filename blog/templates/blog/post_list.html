@@ -1,3 +1,26 @@
+<!DOCTYPE html>
+
 <html>
-    <p>Ciao!</p>
+    <head>
+        <title>Rob Cutmore - Software Developer</title>
+    </head>
+
+    <body>
+        <div>
+            <ul>
+                <li>About</li>
+                <li>Blog</li>
+                <li>Projects</li>
+            </ul>
+        </div>
+
+
+        {% for post in posts %}
+            <div>
+                <h3><a href="">{{ post.title }}</a></h3>
+                <p>Published: {{ post.published_date }}</p>
+                <p>{{ post.text|linebreaks }}</p>
+            </div>
+        {% endfor %}
+    </body>
 </html>
