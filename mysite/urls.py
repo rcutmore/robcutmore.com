@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^about/$', 'mysite.views.about', name='about'),
     url(r'^blog/', include('blog.urls')),
+    url(r'^portfolio/', include('portfolio.urls')),
 )

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Rob Cutmore - Projects</title>
+    </head>
+
+    <body>
+        <div>
+            <ul>
+                <li>Blog</li>
+                <li>Projects</li>
+                <li>About</li>
+            </ul>
+        </div>
+
+
+        <div>
+            {% for project in projects %}
+                {{ project.title }}
+                {{ project.url }}
+                {{ project.description }}
+            {% endfor %}
+        </div>
+    </body>
+</html>
