@@ -1,20 +1,11 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
-<html>
-    <head>
-        <title>Rob Cutmore - Software Developer</title>
-    </head>
+{% block title %}
+    Blog
+{% endblock %}
 
-    <body>
-        <div>
-            <ul>
-                <li>About</li>
-                <li>Blog</li>
-                <li>Projects</li>
-            </ul>
-        </div>
-
-
+{% block body %}
+    <div>
         {% for post in posts %}
             <div>
                 <h3><a href="">{{ post.title }}</a></h3>
@@ -22,5 +13,5 @@
                 <p>{{ post.text|linebreaks }}</p>
             </div>
         {% endfor %}
-    </body>
-</html>
+    </div>
+{% endblock %}

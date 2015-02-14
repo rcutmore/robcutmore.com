@@ -1,32 +1,17 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
-<html>
-    <head>
-        <title>Rob Cutmore - Software Developer</title>
-    </head>
+{% block body %}
+    <div>
+        <p>
+            My name is Rob Cutmore. I'm a software developer located in Upstate New York.
+            I currently work mainly with Python and refactoring (and replacing) legacy Visual
+            Basic and VBA code. I started this website to work on my web development skills
+            and to eventually show off some of my development projects.
+        </p>
 
-    <body>
-        <div>
-            <ul>
-                <li>Blog</li>
-                <li>Projects</li>
-                <li>About</li>
-            </ul>
-        </div>
-
-
-        <div>
-            <p>
-                My name is Rob Cutmore. I'm a software developer located in Upstate New York.
-                I currently work mainly with Python and refactoring (and replacing) legacy Visual
-                Basic and VBA code. I started this website to work on my web development skills
-                and to eventually show off some of my development projects.
-            </p>
-
-            <a href="https://github.com/rcutmore">Github</a>
-            <a href="https://www.linkedin.com/in/robcutmore">LinkedIn</a>
-            <a href="https://www.facebook.com/robcutmore">Facebook</a>
-            <a href="https://twitter.com/robcutmore">Twitter</a>
-        </div>
-    </body>
-</html>
+        <a href="https://github.com/rcutmore">Github</a>
+        <a href="https://www.linkedin.com/in/robcutmore">LinkedIn</a>
+        <a href="https://www.facebook.com/robcutmore">Facebook</a>
+        <a href="https://twitter.com/robcutmore">Twitter</a>
+    </div>
+{% endblock %}
