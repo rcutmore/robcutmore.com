@@ -19,3 +19,11 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.social-button-container {
+    text-align: center;
+}
+
+.social-buttons {
+    margin: auto;
+}
