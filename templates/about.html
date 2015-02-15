@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block body %}
-    <div>
+    <div class="about-container">
+        <img class="img-circle profile-image" src="{% static 'images/rob.jpg' %}">
+
+        <br />
+
         <p>
             My name is Rob Cutmore. I'm a software developer located in Upstate New York.
             I currently work mainly with Python and refactoring (and replacing) legacy Visual
@@ -9,6 +15,8 @@
             and to eventually show off some of my development projects.
         </p>
 
+        <br />
+        
         <a href="https://github.com/rcutmore">Github</a>
         <a href="https://www.linkedin.com/in/robcutmore">LinkedIn</a>
         <a href="https://www.facebook.com/robcutmore">Facebook</a>
