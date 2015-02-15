@@ -1,17 +1,38 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block body %}
-    <div>
+    <div class="about-container">
+        <img class="img-circle profile-image" src="{% static 'images/rob.jpg' %}">
+
+        <br />
+
         <p>
             My name is Rob Cutmore. I'm a software developer located in Upstate New York.
-            I currently work mainly with Python and refactoring (and replacing) legacy Visual
-            Basic and VBA code. I started this website to work on my web development skills
-            and to eventually show off some of my development projects.
+            I currently work predominantly with Python and refactoring (and replacing) legacy 
+            Visual Basic and VBA code. Much of my programming experience from work involves 
+            process automation and data analysis. I started this website to work on my web 
+            development skills and to eventually display a portfolio of programming projects.
         </p>
 
-        <a href="https://github.com/rcutmore">Github</a>
-        <a href="https://www.linkedin.com/in/robcutmore">LinkedIn</a>
-        <a href="https://www.facebook.com/robcutmore">Facebook</a>
-        <a href="https://twitter.com/robcutmore">Twitter</a>
+        <br />
+
+        <div class="social-button-container">
+            <div class="social-buttons">
+                <a class="btn btn-social-icon btn-github" href="https://github.com/rcutmore">
+                    <i class="fa fa-github"></i>
+                </a>
+                <a class="btn btn-social-icon btn-linkedin" href="https://www.linkedin.com/in/robcutmore">
+                    <i class="fa fa-linkedin"></i>
+                </a>
+                <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/robcutmore">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/robcutmore">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </div>
+        </div>
     </div>
 {% endblock %}
