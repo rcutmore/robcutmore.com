@@ -1,20 +1,48 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>Rob Cutmore - {% block title %}Software Developer{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
     </head>
 
     <body>
-        <div>
-            <ul>
-                <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
-                <li><a href="{% url 'portfolio:project_list' %}">Projects</a></li>
-                <li><a href="{% url 'about' %}">About</a></li>
-            </ul>
-        </div>
+        <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Rob Cutmore</a>
+            </div>
+
+            <div>
+                <ul class="nav navbar-nav">
+                    {% if active_page == 'blog' %}
+                        <li class="active">
+                    {% else %}
+                        <li>
+                    {% endif %}
+                    <a href="{% url 'blog:post_list' %}">Blog</a></li>
+                    {% if active_page == 'portfolio' %}
+                        <li class="active">
+                    {% else %}
+                        <li>
+                    {% endif %}
+                    <a href="{% url 'portfolio:project_list' %}">Projects</a></li>
+                    {% if active_page == 'about' %}
+                        <li class="active">
+                    {% else %}
+                        <li>
+                    {% endif %}
+                    <a href="{% url 'about' %}">About</a></li>
+                </ul>
+            </div>
+        </nav>
 
         {% block body %}{% endblock %}
 
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>
