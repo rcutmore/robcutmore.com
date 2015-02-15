@@ -7,10 +7,15 @@
 {% block body %}
     <div>
         {% for post in posts %}
-            <div>
-                <h3><a href="">{{ post.title }}</a></h3>
-                <p>Published: {{ post.published_date }}</p>
-                <p>{{ post.text|linebreaks }}</p>
+            <div class="post-container">
+                <h3 class="post-title">
+                    <a href="">{{ post.title }}</a><br />
+                    <small>{{ post.published_date }}</small>
+                </h3>
+                <p class="post-body">
+                    {{ post.text|linebreaks }}
+                </p>
+                <hr>
             </div>
         {% endfor %}
     </div>
