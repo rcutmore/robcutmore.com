@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    <div class="project-container">
-        {% for project in projects %}
+    {% for project in projects %}
+        <div class="content-container">
             <div class="panel panel-default">
                 <div class="panel-heading project-title">
                     {% if project.url %}
@@ -19,6 +19,6 @@
                     {{ project.description|linebreaks }}
                 </div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
 {% endblock %}
