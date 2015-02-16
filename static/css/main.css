@@ -20,6 +20,16 @@
     margin-right: auto;
 }
 
+.project-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+.project-title {
+    text-align: center;
+}
+
 .social-button-container {
     text-align: center;
 }

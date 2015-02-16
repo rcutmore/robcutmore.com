@@ -5,11 +5,20 @@
 {% endblock %}
 
 {% block body %}
-    <div>
+    <div class="project-container">
         {% for project in projects %}
-            {{ project.title }}
-            {{ project.url }}
-            {{ project.description }}
+            <div class="panel panel-default">
+                <div class="panel-heading project-title">
+                    {% if project.url %}
+                        <a href="{{ project.url }}">{{ project.title }}</a>
+                    {% else %}
+                        {{ project.title }}
+                    {% endif %}
+                </div>
+                <div class="panel-body">
+                    {{ project.description|linebreaks }}
+                </div>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
