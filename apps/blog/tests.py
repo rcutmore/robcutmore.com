@@ -42,6 +42,7 @@ class PostTests(TestCase):
 
 class PostListTests(TestCase):
     def test_post_list_with_no_posts(self):
+        """post_list should display message when no posts exist."""
         response = self.client.get(reverse('blog:post_list'))
 
         self.assertEqual(response.status_code, 200)
@@ -49,6 +50,7 @@ class PostListTests(TestCase):
         self.assertQuerysetEqual(response.context['posts'], [])
 
     def test_post_list_with_published_posts(self):
+        """post_list should display all published posts."""
         first_post = add_post('Test Author', 'Test title 1', 'Test text 1')
         first_post.publish()
         second_post = add_post('Test Author', 'Test title 2', 'Test text 2')
@@ -66,6 +68,7 @@ class PostListTests(TestCase):
         self.assertEqual(post_count, 2)
 
     def test_post_list_with_unpublished_posts(self):
+        """post_list should only display published posts, not any unpublished posts."""
         first_post = add_post('Test Author', 'Test title 1', 'Test text 1')
         first_post.publish()
         second_post = add_post('Test Author', 'Test title 2', 'Test text 2')
