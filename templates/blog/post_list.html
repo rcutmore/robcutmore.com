@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load common_tags %}
+
 {% block title %}
     Blog
 {% endblock %}
@@ -14,7 +16,9 @@
                 </h3>
 
                 <p class="post-body">
-                    {{ post.text|linebreaks }}
+                    {% autoescape off %}
+                        {{ post.text|markdownify|linebreaks }}
+                    {% endautoescape %}
                 </p>
 
                 <hr>
