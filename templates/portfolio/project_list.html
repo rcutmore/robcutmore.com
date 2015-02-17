@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load common_tags %}
+
 {% block title %}
     Projects
 {% endblock %}
@@ -17,7 +19,9 @@
                         {% endif %}
                     </div>
                     <div class="panel-body">
-                        {{ project.description|linebreaks }}
+                        {% autoescape off %}
+                            {{ project.description|markdownify|linebreaks }}
+                        {% endautoescape %}
                     </div>
                 </div>
             </div>
