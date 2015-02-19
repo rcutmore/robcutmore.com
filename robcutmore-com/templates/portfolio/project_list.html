@@ -29,4 +29,15 @@
     {% else %}
         <div class="content-container">There are no portfolio projects.</div>
     {% endif %}
+
+    <div class="page-navigation-container">
+        <ul class="pagination">
+            {% if projects.has_previous %}
+                <li><a href="?page={{ projects.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            {% if projects.has_next %}
+                <li><a href="?page={{ projects.next_page_number }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </div>
 {% endblock %}
