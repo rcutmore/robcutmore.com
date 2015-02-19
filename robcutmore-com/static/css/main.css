@@ -4,6 +4,15 @@
     width: 70%;
 }
 
+.page-navigation-container {
+    display: block;
+    text-align: center;
+}
+
+.page-navigation-container li {
+    display: inline-block;
+}
+
 .post-title {
     text-align: center;
 }

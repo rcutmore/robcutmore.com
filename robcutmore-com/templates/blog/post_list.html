@@ -27,4 +27,15 @@
     {% else %}
         <div class="content-container">There are no blog posts.</div>
     {% endif %}
+
+    <div class="page-navigation-container">
+        <ul class="pagination">
+            {% if posts.has_previous %}
+                <li><a href="?page={{ posts.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            {% if posts.has_next %}
+                <li><a href="?page={{ posts.next_page_number }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </div>
 {% endblock %}
