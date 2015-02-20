@@ -1,5 +1,8 @@
+from datetime import date
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+
 from .models import Post
 
 def post_list(request):
@@ -20,3 +23,11 @@ def post_list(request):
     context_dict = {'posts': posts, 'active_page': 'blog'}
 
     return render(request, 'blog/post_list.html', context_dict)
+
+def post_detail(request, post_month, post_day, post_year, post_slug):
+    published_date = date(post_year, post_month, post_day)
+    post = get_object_or_404(Post, slug=post_slug, published_date=published_date)
+
+    context_dict = {'post': post, 'active_page': 'blog'}
+
+    return render(request, 'blog/post_detail.html', context_dict)

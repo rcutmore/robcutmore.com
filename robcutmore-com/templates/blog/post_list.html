@@ -11,7 +11,7 @@
         {% for post in posts %}
             <div class="content-container">
                 <h3 class="post-title">
-                    <a href="">{{ post.title }}</a><br />
+                    <a href="{% url 'blog:post_detail' post_month=post.published_date.month post_day=post.published_date.day post_year=post.published_date.year post_slug=post.slug %}">{{ post.title }}</a><br />
                     <small>{{ post.published_date }}</small>
                 </h3>
 
