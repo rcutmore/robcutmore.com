@@ -7,5 +7,16 @@
 {% endblock %}
 
 {% block body %}
-    {{ post.text|markdownify|linebreaks }}
+    <div class="content-container">
+        <h3 class="post-title">
+            {{ post.title }}<br />
+            <small>{{ post.published_date }}</small>
+        </h3>
+
+        <p class="post-body">
+            {% autoescape off %}
+                {{ post.text|markdownify|linebreaks }}
+            {% endautoescape %}
+        </p>
+    </div>
 {% endblock %}
