@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = os.environ.get('ROBCUTMORE_SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.robcutmore.com']
 
 
 # Application definition
@@ -105,3 +105,12 @@ TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
 TEMPLATE_DIRS = (
     TEMPLATE_PATH,
 )
+
+try:
+    # If this file exists we are on a development machine so override settings.
+    from local_settings import *
+except ImportError as e:
+    # We are on a production machine so do not override any settings.
+    print('Unable to load local_settings.py:', e)
+
+print(DEBUG)

@@ -3,3 +3,4 @@ myenv
 __pycache__
 static_final
 db.sqlite3
+local_settings.py
