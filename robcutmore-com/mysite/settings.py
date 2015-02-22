@@ -1,3 +1,7 @@
+from configparser import RawConfigParser
+config = RawConfigParser()
+config.read('/etc/robcutmore/settings.ini')
+
 """
 Django settings for mysite project.
 
@@ -17,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('ROBCUTMORE_SECRET_KEY', '')
+SECRET_KEY = config.get('project', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config.get('project', 'DEBUG')
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = config.get('project', 'TEMPLATE_DEBUG')
 
 ALLOWED_HOSTS = ['.robcutmore.com']
 
@@ -61,12 +65,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'robcutmore_com',
-        'USER': os.environ.get('ROBCUTMORE_DB_USER', ''),
-        'PASSWORD': os.environ.get('ROBCUTMORE_DB_PASSWORD', ''),
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': config.get('database', 'DATABASE_ENGINE'),
+        'NAME': config.get('database', 'DATABASE_NAME'),
+        'USER': config.get('database', 'DATABASE_USER'),
+        'PASSWORD': config.get('database', 'DATABASE_PASSWORD'),
+        'HOST': config.get('database', 'DATABASE_HOST'),
+        'PORT': config.get('database', 'DATABASE_PORT'),
     }
 }
 
@@ -105,10 +109,3 @@ TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
 TEMPLATE_DIRS = (
     TEMPLATE_PATH,
 )
-
-try:
-    # If this file exists we are on a development machine so override settings.
-    from local_settings import *
-except ImportError as e:
-    # We are on a production machine so do not override any settings.
-    print('Unable to load local_settings.py:', e)
