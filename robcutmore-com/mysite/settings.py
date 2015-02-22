@@ -112,5 +112,3 @@ try:
 except ImportError as e:
     # We are on a production machine so do not override any settings.
     print('Unable to load local_settings.py:', e)
-
-print(DEBUG)
