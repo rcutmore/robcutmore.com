@@ -1,6 +1,7 @@
 *.pyc
 myenv
 __pycache__
+local_settings.py
 static_final
 db.sqlite3
-local_settings.py
+*.sql
