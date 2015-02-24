@@ -19,11 +19,12 @@
                 <p class="post-body">
                     {% autoescape off %}
                         {{ post.text|markdownify|linebreaks|truncatechars:500 }}
-                        {% if post.text|length > 500 %}
-                            <a href="{{ post_url }}">Read more</a>
-                        {% endif %}
                     {% endautoescape %}
                 </p>
+
+                {% if post.text|length > 500 %}
+                    <p class="post-footer"><a href="{{ post_url }}">Read more</a></p>
+                {% endif %}
             </div>
             <br />
         {% endfor %}
