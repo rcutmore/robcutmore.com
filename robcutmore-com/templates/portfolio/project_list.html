@@ -20,7 +20,7 @@
                     </div>
                     <div class="panel-body">
                         {% autoescape off %}
-                            {{ project.description|markdownify|linebreaks }}
+                            {{ project.description|markdownify }}
                         {% endautoescape %}
                     </div>
                 </div>
