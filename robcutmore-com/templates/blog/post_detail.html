@@ -15,7 +15,7 @@
 
         <p class="post-body">
             {% autoescape off %}
-                {{ post.text|markdownify|linebreaks }}
+                {{ post.text|markdownify }}
             {% endautoescape %}
         </p>
     </div>
