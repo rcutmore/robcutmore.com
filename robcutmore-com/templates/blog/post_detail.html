@@ -20,5 +20,9 @@
                 {{ post.text|markdownify }}
             {% endautoescape %}
         </p>
+
+        <p class="post-footer">
+            <a href="{% url 'blog:post_list' %}">View other posts</a>
+        </p>
     </div>
 {% endblock %}
