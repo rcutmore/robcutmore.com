@@ -7,9 +7,11 @@
 {% endblock %}
 
 {% block body %}
+    {% url 'blog:post_detail' post_month=post.published_date.month post_day=post.published_date.day post_year=post.published_date.year post_slug=post.slug as post_url %}
+
     <div class="content-container">
         <h3 class="post-title">
-            {{ post.title }}<br />
+            <a href="{{ post_url }}">{{ post.title }}</a><br />
             <small>{{ post.published_date }}</small>
         </h3>
 
