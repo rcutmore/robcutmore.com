@@ -1,3 +1,9 @@
+p {
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    line-height: 1.6em;
+}
+
 .content-container {
     margin-left: auto;
     margin-right: auto;
