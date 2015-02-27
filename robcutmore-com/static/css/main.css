@@ -49,3 +49,7 @@ p {
 .social-buttons {
     margin: auto;
 }
+
+#about-description {
+    text-align: center;
+}
