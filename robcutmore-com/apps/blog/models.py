@@ -3,10 +3,20 @@ from autoslug.fields import AutoSlugField
 from django.db import models
 from django.utils import timezone
 
+class PostTag(models.Model):
+    title = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('title',)
+
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=200)
     text = models.TextField()
+    tags = models.ManyToManyField(PostTag)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     slug = AutoSlugField(populate_from='title', unique_with='published_date')
