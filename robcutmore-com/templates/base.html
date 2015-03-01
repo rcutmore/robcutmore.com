@@ -21,24 +21,26 @@
 
             <div>
                 <ul class="nav navbar-nav">
-                    {% if active_page == 'blog' %}
-                        <li class="active">
-                    {% else %}
-                        <li>
-                    {% endif %}
-                    <a href="{% url 'blog:post_list' %}">Blog</a></li>
-                    {% if active_page == 'portfolio' %}
-                        <li class="active">
-                    {% else %}
-                        <li>
-                    {% endif %}
-                    <a href="{% url 'portfolio:project_list' %}">Projects</a></li>
                     {% if active_page == 'about' %}
                         <li class="active">
                     {% else %}
                         <li>
                     {% endif %}
                     <a href="{% url 'about' %}">About</a></li>
+
+                    {% if active_page == 'blog' %}
+                        <li class="active">
+                    {% else %}
+                        <li>
+                    {% endif %}
+                    <a href="{% url 'blog:post_list' %}">Blog</a></li>
+
+                    {% if active_page == 'portfolio' %}
+                        <li class="active">
+                    {% else %}
+                        <li>
+                    {% endif %}
+                    <a href="{% url 'portfolio:project_list' %}">Projects</a></li>
                 </ul>
             </div>
         </nav>
