@@ -1,7 +1,14 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2.1em;
+}
+
 p {
+    font-family: 'Lora', serif;
+    font-size: 1.1em;
+    line-height: 1.5em;
     margin-top: 1.6em;
     margin-bottom: 1.6em;
-    line-height: 1.6em;
 }
 
 .about-container {
