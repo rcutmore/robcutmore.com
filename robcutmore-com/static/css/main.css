@@ -26,6 +26,15 @@ nav {
     width: 60%;
 }
 
+.navbar.center .navbar-inner {
+    text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+    display:inline-block;
+    float: none;
+}
+
 .page-navigation-container {
     display: block;
     text-align: center;
