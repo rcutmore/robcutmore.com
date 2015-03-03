@@ -62,6 +62,11 @@ nav {
     margin-right: auto;
 }
 
+.project-tags {
+    margin: 0.5em;
+    text-align: center;
+}
+
 .project-title {
     font-family: 'Open Sans', serif;
     font-size: 1.1em;
