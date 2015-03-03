@@ -1,13 +1,11 @@
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Open Sans', sans-serif;
+/* Set fonts */
+
+body {
+    font-family: 'Lora', serif;
 }
 
-p {
-    font-family: 'Lora', serif;
-    font-size: 1.1em;
-    line-height: 1.5em;
-    margin-top: 1.6em;
-    margin-bottom: 1.6em;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', sans-serif;
 }
 
 nav {
@@ -15,16 +13,15 @@ nav {
     font-size: 1.1em;
 }
 
-.about-container {
-    margin-top: 2.0em;
-    margin-bottom: 2.0em;
+p {
+    font-size: 1.1em;
+    line-height: 1.5em;
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
 }
 
-.content-container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 60%;
-}
+
+/* Override Bootstrap navbar settings */
 
 .navbar.center .navbar-inner {
     text-align: center;
@@ -35,13 +32,18 @@ nav {
     float: none;
 }
 
-.page-navigation-container {
-    display: block;
-    text-align: center;
+
+/* Content layout */
+
+.about-container {
+    margin-top: 2.0em;
+    margin-bottom: 2.0em;
 }
 
-.page-navigation-container li {
-    display: inline-block;
+.content-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
 }
 
 .post-footer {
@@ -83,4 +85,16 @@ nav {
 
 #about-description {
     text-align: center;
+}
+
+
+/* Pagination display */
+
+.page-navigation-container {
+    display: block;
+    text-align: center;
+}
+
+.page-navigation-container li {
+    display: inline-block;
 }
