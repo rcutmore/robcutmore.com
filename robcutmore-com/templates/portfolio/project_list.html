@@ -19,16 +19,20 @@
                         {% endif %}
                     </div>
 
-                    <div class="project-tags centered-content">
-                        {% for tag in project.tags.all %}
-                            <span class="label label-primary">{{ tag }}</span>
-                        {% endfor %}
-                    </div>
+                    
 
                     <div class="panel-body">
-                        {% autoescape off %}
-                            {{ project.description|markdownify }}
-                        {% endautoescape %}
+                        <div class="centered-content">
+                            {% for tag in project.tags.all %}
+                                <span class="label label-primary">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <p>
+                            {% autoescape off %}
+                                {{ project.description|markdownify }}
+                            {% endautoescape %}
+                        </p>
                     </div>
                 </div>
             </div>
