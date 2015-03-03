@@ -11,7 +11,7 @@
         {% for project in projects %}
             <div class="content-container">
                 <div class="panel panel-default">
-                    <div class="panel-heading project-title">
+                    <div class="panel-heading project-title centered-content">
                         {% if project.url %}
                             <a href="{{ project.url }}" target="_blank">{{ project.title }}</a>
                         {% else %}
@@ -19,7 +19,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="project-tags">
+                    <div class="project-tags centered-content">
                         {% for tag in project.tags.all %}
                             <span class="label label-primary">{{ tag }}</span>
                         {% endfor %}

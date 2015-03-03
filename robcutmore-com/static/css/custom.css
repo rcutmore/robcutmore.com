@@ -1,4 +1,4 @@
-/* Set fonts */
+/* General font and layout */
 
 body {
     font-family: 'Lora', serif;
@@ -20,24 +20,8 @@ p {
     margin-bottom: 1.6em;
 }
 
-
-/* Override Bootstrap navbar settings */
-
-.navbar.center .navbar-inner {
+.centered-content {
     text-align: center;
-}
-
-.navbar.center .navbar-inner .nav {
-    display:inline-block;
-    float: none;
-}
-
-
-/* Content layout */
-
-.about-container {
-    margin-top: 2.0em;
-    margin-bottom: 2.0em;
 }
 
 .content-container {
@@ -46,16 +30,12 @@ p {
     width: 60%;
 }
 
-.post-footer {
-    text-align: center;
-}
 
-.post-tags {
-    text-align: center;
-}
+/* About layout */
 
-.post-title {
-    text-align: center;
+.about-container {
+    margin-top: 2.0em;
+    margin-bottom: 2.0em;
 }
 
 .profile-image {
@@ -64,27 +44,20 @@ p {
     margin-right: auto;
 }
 
+.social-buttons {
+    margin: auto;
+}
+
+
+/* Portfolio layout */
+
 .project-tags {
     margin: 0.5em;
-    text-align: center;
 }
 
 .project-title {
     font-family: 'Open Sans', serif;
     font-size: 1.1em;
-    text-align: center;
-}
-
-.social-button-container {
-    text-align: center;
-}
-
-.social-buttons {
-    margin: auto;
-}
-
-#about-description {
-    text-align: center;
 }
 
 
@@ -97,4 +70,16 @@ p {
 
 .page-navigation-container li {
     display: inline-block;
+}
+
+
+/* Override Bootstrap navbar to center */
+
+.navbar.center .navbar-inner {
+    text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+    display:inline-block;
+    float: none;
 }

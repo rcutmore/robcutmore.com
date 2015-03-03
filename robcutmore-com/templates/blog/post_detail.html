@@ -10,24 +10,24 @@
     {% url 'blog:post_detail' post_month=post.published_date.month post_day=post.published_date.day post_year=post.published_date.year post_slug=post.slug as post_url %}
 
     <div class="content-container">
-        <h2 class="post-title">
+        <h2 class="centered-content">
             <a href="{{ post_url }}">{{ post.title }}</a><br />
             <small>{{ post.published_date }}</small>
         </h2>
 
-        <p class="post-tags">
+        <p class="centered-content">
             {% for tag in post.tags.all %}
                 <span class="label label-primary">{{ tag }}</span>
             {% endfor %}
         </p>
 
-        <p class="post-body">
+        <p>
             {% autoescape off %}
                 {{ post.text|markdownify }}
             {% endautoescape %}
         </p>
 
-        <p class="post-footer">
+        <p class="centered-content">
             <a href="{% url 'blog:post_list' %}">View other posts</a>
         </p>
     </div>
