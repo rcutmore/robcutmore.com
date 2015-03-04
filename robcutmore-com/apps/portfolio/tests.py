@@ -42,3 +42,15 @@ class ProjectListTests(TestCase):
 
         project_count = len(response.context['projects'])
         self.assertEqual(project_count, 2)
+
+    def test_project_list_tags(self):
+        tags = ['tag 1', 'tag 2', 'tag 3']
+        project = add_project(
+            'Project 1', 'Project 1 description', 'http://robcutmore.com', tags)
+
+        response = self.client.get(reverse('portfolio:project_list'))
+
+        self.assertEqual(response.status_code, 200)
+
+        for tag in tags:
+            self.assertContains(response, tag)
