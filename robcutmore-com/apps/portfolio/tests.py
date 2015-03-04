@@ -1,11 +1,19 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from.models import Project
+from .models import Project, ProjectTag
 
-def add_project(title, description, url):
+def add_project_tag(title):
+    tag = ProjectTag.objects.get_or_create(title=title)[0]
+    return tag
+
+def add_project(title, description, url, tags):
     project = Project.objects.get_or_create(
         title=title, description=description, url=url)[0]
+
+    project_tags = [add_project_tag(tag) for tag in tags]
+    project.tags.add(*project_tags)
+
     return project
 
 class ProjectListTests(TestCase):
@@ -20,9 +28,9 @@ class ProjectListTests(TestCase):
     def test_project_list_with_projects(self):
         """project_list should display all projects."""
         first_project = add_project(
-            'Project 1', 'Project 1 description', 'http://www.robcutmore.com')
+            'Project 1', 'Project 1 description', 'http://www.robcutmore.com', [])
         second_project = add_project(
-            'Project 2', 'Project 2 description', 'http://www.robcutmore.com')
+            'Project 2', 'Project 2 description', 'http://www.robcutmore.com', [])
 
         response = self.client.get(reverse('portfolio:project_list'))
 
