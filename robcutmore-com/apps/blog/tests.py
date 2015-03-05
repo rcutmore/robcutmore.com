@@ -91,3 +91,16 @@ class PostListTests(TestCase):
 
         post_count = len(response.context['posts'])
         self.assertEqual(post_count, 1)
+
+    def test_post_list_tags(self):
+        """post_list should display post tags."""
+        tags = ['tag 1', 'tag 2', 'tag 3']
+        post = add_post('Author', 'Title', 'Text', tags)
+        post.publish()
+
+        response = self.client.get(reverse('blog:post_list'))
+        
+        self.assertEqual(response.status_code, 200)
+
+        for tag in tags:
+            self.assertContains(response, tag)
