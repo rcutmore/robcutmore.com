@@ -3,11 +3,19 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Post
+from .models import Post, PostTag
 
-def add_post(author, title, text):
+def add_post_tag(title):
+    tag = PostTag.objects.get_or_create(title=title)[0]
+    return tag
+
+def add_post(author, title, text, tags):
     user = add_user(author)
     post = Post.objects.get_or_create(author=user, title=title, text=text)[0]
+
+    post_tags = [add_post_tag(tag) for tag in tags]
+    post.tags.add(*post_tags)
+
     return post
 
 def add_user(username):
@@ -17,7 +25,7 @@ def add_user(username):
 class PostTests(TestCase):
     def test_publish_sets_published_date(self):
         """publish should set published_date to the current date and time."""
-        post = add_post('Test Author', 'Test title', 'Test text')
+        post = add_post('Test Author', 'Test title', 'Test text', ['test'])
         time_before_publish = timezone.now()
 
         post.publish()
@@ -28,7 +36,7 @@ class PostTests(TestCase):
 
     def test_creation_date_before_published_date(self):
         """publish should set published_date_later_than_created_date."""
-        post = add_post('Test Author', 'Test title', 'Test text')
+        post = add_post('Test Author', 'Test title', 'Test text', [])
         post.publish()
         post = Post.objects.get(id=post.id)
 
@@ -36,7 +44,7 @@ class PostTests(TestCase):
 
     def test_published_date_not_set_before_publish(self):
         """published_date should not be set before post is published."""
-        post = add_post('Test Author', 'Test title', 'Test text')
+        post = add_post('Test Author', 'Test title', 'Test text', [])
 
         self.assertIsNone(post.published_date)
 
@@ -51,9 +59,9 @@ class PostListTests(TestCase):
 
     def test_post_list_with_published_posts(self):
         """post_list should display all published posts."""
-        first_post = add_post('Test Author', 'Test title 1', 'Test text 1')
+        first_post = add_post('Test Author', 'Test title 1', 'Test text 1', [])
         first_post.publish()
-        second_post = add_post('Test Author', 'Test title 2', 'Test text 2')
+        second_post = add_post('Test Author', 'Test title 2', 'Test text 2', [])
         second_post.publish()
 
         response = self.client.get(reverse('blog:post_list'))
@@ -69,9 +77,9 @@ class PostListTests(TestCase):
 
     def test_post_list_with_unpublished_posts(self):
         """post_list should only display published posts, not any unpublished posts."""
-        first_post = add_post('Test Author', 'Test title 1', 'Test text 1')
+        first_post = add_post('Test Author', 'Test title 1', 'Test text 1', [])
         first_post.publish()
-        second_post = add_post('Test Author', 'Test title 2', 'Test text 2')
+        second_post = add_post('Test Author', 'Test title 2', 'Test text 2', [])
 
         response = self.client.get(reverse('blog:post_list'))
 
