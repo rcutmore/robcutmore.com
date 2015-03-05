@@ -104,3 +104,36 @@ class PostListTests(TestCase):
 
         for tag in tags:
             self.assertContains(response, tag)
+
+class PostDetailTests(TestCase):
+    def test_post_detail_for_nonexistent_post(self):
+        """post_detail should show 404 page for non-existent post."""
+        url_args = {
+            'post_month': 1,
+            'post_day': 1,
+            'post_year': 2015,
+            'post_slug': 'test-slug',
+        }
+        response = self.client.get(reverse('blog:post_detail', kwargs=url_args))
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_detail_for_published_post(self):
+        """post_detail should display published post content."""
+        tags = ['tag 1', 'tag 2', 'tag 3']
+        post = add_post('Author', 'Post Title', 'Text', tags)
+        post.publish()
+
+        url_args = {
+            'post_month': post.published_date.month,
+            'post_day': post.published_date.day,
+            'post_year': post.published_date.year,
+            'post_slug': post.slug,
+        }
+        response = self.client.get(reverse('blog:post_detail', kwargs=url_args))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, post.title)
+        self.assertContains(response, post.text)
+
+        for tag in tags:
+            self.assertContains(response, tag)
