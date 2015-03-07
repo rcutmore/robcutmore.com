@@ -5,7 +5,7 @@ from .models import Project
 
 def project_list(request):
     all_projects = Project.objects.all()
-    paginator = Paginator(all_projects, 10)
+    paginator = Paginator(all_projects, 5)
 
     page = request.GET.get('page')
     try:

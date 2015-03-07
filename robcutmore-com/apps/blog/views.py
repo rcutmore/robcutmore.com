@@ -7,7 +7,7 @@ from .models import Post
 
 def post_list(request):
     all_posts = Post.objects.filter(published_date__isnull=False)
-    paginator = Paginator(all_posts, 10)
+    paginator = Paginator(all_posts, 5)
 
     page = request.GET.get('page')
     try:
