@@ -10,6 +10,7 @@
     {% if posts %}
         {% for post in posts %}
             {% url 'blog:post_detail' post_month=post.published_date.month post_day=post.published_date.day post_year=post.published_date.year post_slug=post.slug as post_url %}
+
             <div class="content-container">
                 <h2 class="centered-content">
                     <a href="{{ post_url }}">{{ post.title }}</a><br />
@@ -34,20 +35,10 @@
                     </p>
                 {% endif %}
             </div>
-            <br />
         {% endfor %}
     {% else %}
         <div class="content-container">There are no blog posts.</div>
     {% endif %}
 
-    <div class="page-navigation-container">
-        <ul class="pagination">
-            {% if posts.has_previous %}
-                <li><a href="?page={{ posts.previous_page_number }}">Previous</a></li>
-            {% endif %}
-            {% if posts.has_next %}
-                <li><a href="?page={{ posts.next_page_number }}">Next</a></li>
-            {% endif %}
-        </ul>
-    </div>
+    {% include 'common/pagination.html' with items=posts %}
 {% endblock %}
