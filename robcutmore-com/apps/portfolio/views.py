@@ -3,8 +3,11 @@ from django.shortcuts import render
 
 from .models import Project
 
-def project_list(request):
-    all_projects = Project.objects.all()
+def project_list(request, tag=None):
+    if tag:
+        all_projects = Project.objects.filter(tags__title=tag)
+    else:
+        all_projects = Project.objects.all()
     paginator = Paginator(all_projects, 5)
 
     page = request.GET.get('page')

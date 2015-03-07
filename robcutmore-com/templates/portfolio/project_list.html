@@ -22,7 +22,9 @@
                     <div class="panel-body">
                         <div class="centered-content">
                             {% for tag in project.tags.all %}
-                                <span class="label label-primary">{{ tag }}</span>
+                                <a href="{% url 'portfolio:project_list_filtered' tag=tag.title %}" class="tag">
+                                    <span class="label label-primary">{{ tag.title }}</span>
+                                </a>
                             {% endfor %}
                         </div>
 
