@@ -21,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.getboolean('project', 'SECRET_KEY')
+SECRET_KEY = config.get('project', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config.getboolean('project', 'DEBUG')
 
-TEMPLATE_DEBUG = config.get('project', 'TEMPLATE_DEBUG')
+TEMPLATE_DEBUG = config.getboolean('project', 'TEMPLATE_DEBUG')
 
 ALLOWED_HOSTS = ['.robcutmore.com']
 
