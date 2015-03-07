@@ -5,8 +5,11 @@ from django.shortcuts import get_object_or_404, render
 
 from .models import Post
 
-def post_list(request):
-    all_posts = Post.objects.filter(published_date__isnull=False)
+def post_list(request, tag=None):
+    if tag:
+        all_posts = Post.objects.filter(published_date__isnull=False, tags__title=tag)
+    else:
+        all_posts = Post.objects.filter(published_date__isnull=False)
     paginator = Paginator(all_posts, 5)
 
     page = request.GET.get('page')
