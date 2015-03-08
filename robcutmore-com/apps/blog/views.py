@@ -1,29 +1,16 @@
 from datetime import date
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render
 
 from .models import Post
 
 def post_list(request, tag=None):
-    if tag:
-        all_posts = Post.objects.filter(published_date__isnull=False, tags__title=tag)
-    else:
-        all_posts = Post.objects.filter(published_date__isnull=False)
-    paginator = Paginator(all_posts, 5)
-
     page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # page is not an integer so show the first page.
-        posts = paginator.page(1)
-    except EmptyPage:
-        # page is higher than total number of pages so show last page.
-        posts = paginator.page(paginator.num_pages)
-
-    context_dict = {'posts': posts, 'active_page': 'blog'}
-
+    context_dict = {
+        'active_page': 'blog',
+        'page': page,
+        'tag': tag,
+    }
     return render(request, 'blog/post_list.html', context_dict)
 
 def post_detail(request, post_month, post_day, post_year, post_slug):
