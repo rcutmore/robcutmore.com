@@ -9,8 +9,11 @@ register = template.Library()
 def get_post_list(page=None, tag=None):
     if tag:
         all_posts = Post.objects.filter(published_date__isnull=False, tags__title=tag)
+        filtered = True
     else:
         all_posts = Post.objects.filter(published_date__isnull=False)
+        filtered = False
+
     paginator = Paginator(all_posts, 5)
 
     try:
@@ -22,4 +25,4 @@ def get_post_list(page=None, tag=None):
         # page is higher than total number of pages so show last page.
         posts = paginator.page(paginator.num_pages)
 
-    return {'posts': all_posts}
+    return {'posts': all_posts, 'filtered': filtered}
