@@ -1,0 +1,43 @@
+{% load common_tags %}
+
+{% if filtered %}
+    <div class="content-container centered-content">
+        <a href="#" class="tag" data-tag="">
+            <span class="label label-primary">View All</span>
+        </a>
+    </div>
+{% endif %}
+
+{% if projects %}
+    {% for project in projects %}
+        <div class="content-container">
+            <div class="panel panel-default">
+                <div class="panel-heading project-title centered-content">
+                    {% if project.url %}
+                        <a href="{{ project.url }}" target="_blank">{{ project.title }}</a>
+                    {% else %}
+                        {{ project.title }}
+                    {% endif %}
+                </div>
+
+                <div class="panel-body">
+                    <div class="centered-content">
+                        {% for tag in project.tags.all %}
+                            <a href="#" class="tag">
+                                <span class="label label-primary">{{ tag.title }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                    <p>
+                        {% autoescape off %}
+                            {{ project.description|markdownify }}
+                        {% endautoescape %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="content-container centered-content">There are no portfolio projects.</div>
+{% endif %}

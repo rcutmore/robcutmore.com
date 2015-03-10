@@ -1,45 +1,15 @@
 {% extends 'common/base.html' %}
 
-{% load common_tags %}
+{% load portfolio_tags %}
 
 {% block title %}
     Projects
 {% endblock %}
 
 {% block body %}
-    {% if projects %}
-        {% for project in projects %}
-            <div class="content-container">
-                <div class="panel panel-default">
-                    <div class="panel-heading project-title centered-content">
-                        {% if project.url %}
-                            <a href="{{ project.url }}" target="_blank">{{ project.title }}</a>
-                        {% else %}
-                            {{ project.title }}
-                        {% endif %}
-                    </div>
-
-                    <div class="panel-body">
-                        <div class="centered-content">
-                            {% for tag in project.tags.all %}
-                                <a href="{% url 'portfolio:project_list_filtered' tag=tag.title %}" class="tag">
-                                    <span class="label label-primary">{{ tag.title }}</span>
-                                </a>
-                            {% endfor %}
-                        </div>
-
-                        <p>
-                            {% autoescape off %}
-                                {{ project.description|markdownify }}
-                            {% endautoescape %}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <div class="content-container">There are no portfolio projects.</div>
-    {% endif %}
+    <div id="project-list">
+        {% get_project_list page=page tag=tag %}
+    </div>
 
     {% include 'common/pagination.html' with items=projects %}
 {% endblock %}
