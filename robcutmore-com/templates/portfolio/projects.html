@@ -23,7 +23,7 @@
                 <div class="panel-body">
                     <div class="centered-content">
                         {% for tag in project.tags.all %}
-                            <a href="#" class="tag">
+                            <a href="#" class="tag" data-tag="{{ tag.title }}">
                                 <span class="label label-primary">{{ tag.title }}</span>
                             </a>
                         {% endfor %}

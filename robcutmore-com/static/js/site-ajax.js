@@ -16,4 +16,20 @@ $(document).ready( function() {
         });
     });
 
+    // Filter portfolio list when tag is clicked.
+    $('#project-list').on('click', '.tag', function() {
+        var tag = $(this).attr('data-tag');
+        var params;
+
+        if (tag.length > 0) {
+            params = {'tag': tag};
+        } else {
+            params = {};
+        }
+        
+        $.get('/portfolio/filter/', params, function(data) {
+            $('#project-list').html(data);
+        });
+    });
+
 });
