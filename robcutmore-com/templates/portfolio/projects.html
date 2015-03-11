@@ -38,6 +38,8 @@
             </div>
         </div>
     {% endfor %}
+
+    {% include 'common/pagination.html' with items=projects %}
 {% else %}
     <div class="content-container centered-content">There are no portfolio projects.</div>
 {% endif %}
