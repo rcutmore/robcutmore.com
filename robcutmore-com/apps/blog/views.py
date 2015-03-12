@@ -26,6 +26,8 @@ def post_detail(request, post_month, post_day, post_year, post_slug):
 
 def filter_post_list(request):
     tag = request.GET.get('tag', '')
-    context_dict = get_post_list(1, tag)
+    page = request.GET.get('page', 1)
+    
+    context_dict = get_post_list(page, tag)
 
     return render(request, 'blog/posts.html', context_dict)

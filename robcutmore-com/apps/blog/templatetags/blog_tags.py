@@ -25,4 +25,4 @@ def get_post_list(page=None, tag=None):
         # page is higher than total number of pages so show last page.
         posts = paginator.page(paginator.num_pages)
 
-    return {'posts': posts, 'filtered': filtered}
+    return {'posts': posts, 'tag': tag, 'filtered': filtered}

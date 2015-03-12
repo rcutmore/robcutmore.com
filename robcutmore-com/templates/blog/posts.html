@@ -40,7 +40,7 @@
         </div>
     {% endfor %}
 
-    {% include 'common/pagination.html' with items=posts %}
+    {% include 'common/pagination.html' with items=posts tag=tag %}
 {% else %}
     <div class="content-container centered-content">There are no blog posts.</div>
 {% endif %}
