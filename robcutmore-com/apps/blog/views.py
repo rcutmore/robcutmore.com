@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from .models import Post
 from .templatetags.blog_tags import get_post_list
 
-def post_list(request, tag=None):
+def post_list(request, tag=''):
     page = request.GET.get('page', '')
     context_dict = {
         'active_page': 'blog',

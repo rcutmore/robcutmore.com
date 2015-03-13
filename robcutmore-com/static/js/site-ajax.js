@@ -3,15 +3,19 @@ $(document).ready( function() {
     // Filter blog list when tag is clicked.
     $('#post-list').on('click', '.tag', function() {
         var tag = $(this).attr('data-tag');
-        var params;
 
+        var params;
+        var urlTag;
         if (tag.length > 0) {
             params = {'tag': tag};
+            urlTag = tag + '/';
         } else {
             params = {};
+            urlTag = '';
         }
 
         $.get('/blog/filter/', params, function(data) {
+            history.pushState({}, '', 'http://robcutmore.com/blog/' + urlTag);
             $('#post-list').html(data);
         });
     });
@@ -30,6 +34,7 @@ $(document).ready( function() {
         }
 
         $.get('/blog/filter/', params, function(data) {
+            history.pushState({}, '', '?page=' + page)
             $('#post-list').html(data);
         });
     });
