@@ -2,7 +2,7 @@
 
 {% if filtered %}
     <div class="content-container centered-content">
-        <a href="#" class="tag" data-tag="">
+        <a href="{% url 'blog:post_list' %}" onclick="return false;" class="tag" data-tag="">
             <span class="label label-primary">View All</span>
         </a>
     </div>
@@ -20,7 +20,7 @@
 
             <p class="centered-content">
                 {% for tag in post.tags.all %}
-                    <a href="#" class="tag" data-tag="{{ tag.title }}">
+                    <a href="{% url 'blog:post_list_filtered' tag=tag.title %}" onclick="return false;" class="tag" data-tag="{{ tag.title }}">
                         <span class="label label-primary">{{ tag.title }}</span>
                     </a>
                 {% endfor %}
