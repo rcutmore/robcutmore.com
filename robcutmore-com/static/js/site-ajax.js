@@ -34,7 +34,7 @@ $(document).ready( function() {
         }
 
         $.get('/blog/filter/', params, function(data) {
-            history.pushState({}, '', '?page=' + page)
+            history.pushState({}, '', '?page=' + page);
             $('#post-list').html(data);
         });
     });
@@ -42,15 +42,38 @@ $(document).ready( function() {
     // Filter portfolio list when tag is clicked.
     $('#project-list').on('click', '.tag', function() {
         var tag = $(this).attr('data-tag');
-        var params;
 
+        var params;
+        var urlTag;
         if (tag.length > 0) {
             params = {'tag': tag};
+            urlTag = tag + '/'
         } else {
             params = {};
+            urlTag = '';
         }
         
         $.get('/portfolio/filter/', params, function(data) {
+            history.pushState({}, '', 'http://robcutmore.com/portfolio/' + urlTag);
+            $('#project-list').html(data);
+        });
+    });
+
+    // Filter project list when pagination button is clicked.
+    $('#project-list').on('click', '.pagination-button', function(data) {
+        var page = $(this).attr('data-page');
+        var tag = $(this).attr('data-tag');
+
+        var params = {};
+        if (page.length > 0) {
+            params['page'] = page;
+        }
+        if (tag.length > 0) {
+            params['tag'] = tag;
+        }
+
+        $.get('/portfolio/filter/', params, function(data) {
+            history.pushState({}, '', '?page=' + page);
             $('#project-list').html(data);
         });
     });

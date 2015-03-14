@@ -2,7 +2,7 @@
 
 {% if filtered %}
     <div class="content-container centered-content">
-        <a href="#" class="tag" data-tag="">
+        <a href="{% url 'portfolio:project_list' %}" onclick="return false;" class="tag" data-tag="">
             <span class="label label-primary">View All</span>
         </a>
     </div>
@@ -23,7 +23,7 @@
                 <div class="panel-body">
                     <div class="centered-content">
                         {% for tag in project.tags.all %}
-                            <a href="#" class="tag" data-tag="{{ tag.title }}">
+                            <a href="{% url 'portfolio:project_list_filtered' tag=tag.title %}" onclick="return false;" class="tag" data-tag="{{ tag.title }}">
                                 <span class="label label-primary">{{ tag.title }}</span>
                             </a>
                         {% endfor %}
@@ -39,7 +39,7 @@
         </div>
     {% endfor %}
 
-    {% include 'common/pagination.html' with items=projects %}
+    {% include 'common/pagination.html' with items=projects tag=tag %}
 {% else %}
     <div class="content-container centered-content">There are no portfolio projects.</div>
 {% endif %}

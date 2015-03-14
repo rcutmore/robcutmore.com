@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = patterns('',
     url(r'^$', views.project_list, name='project_list'),
-    url(r'^filter/$', views.project_list_filtered, name='project_list_filtered'),
+    url(r'^filter/$', views.filter_project_list, name='filter_project_list'),
+    url(r'^(?P<tag>[\w\-]+)/$', views.project_list, name='project_list_filtered'),
 )

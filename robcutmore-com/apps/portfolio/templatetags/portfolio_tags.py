@@ -25,4 +25,4 @@ def get_project_list(page=None, tag=None):
         # page is higher than total number of pages so show last page.
         projects = paginator.page(paginator.num_pages)
 
-    return {'projects': projects, 'filtered': filtered}
+    return {'projects': projects, 'tag': tag, 'filtered': filtered}
