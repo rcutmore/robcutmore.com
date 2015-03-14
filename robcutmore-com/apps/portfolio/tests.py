@@ -23,7 +23,6 @@ class ProjectListTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'There are no portfolio projects.')
-        self.assertQuerysetEqual(response.context['projects'], [])
 
     def test_project_list_with_projects(self):
         """project_list should display all projects."""
@@ -40,12 +39,9 @@ class ProjectListTests(TestCase):
         self.assertContains(response, second_project.title)
         self.assertContains(response, second_project.description)
 
-        project_count = len(response.context['projects'])
-        self.assertEqual(project_count, 2)
-
     def test_project_list_tags(self):
         """project_list should display project tags."""
-        tags = ['tag 1', 'tag 2', 'tag 3']
+        tags = ['tag1', 'tag2', 'tag3']
         project = add_project(
             'Project 1', 'Project 1 description', 'http://robcutmore.com', tags)
 
