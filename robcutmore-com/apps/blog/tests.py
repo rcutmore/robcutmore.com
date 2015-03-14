@@ -10,10 +10,11 @@ def add_post_tag(title):
     tag = PostTag.objects.get_or_create(title=title)[0]
     return tag
 
-def add_post(author, title, text, tags):
-    user = add_user(author)
+def add_post(title, text, tags=None):
+    user = add_user('Test')
     post = Post.objects.get_or_create(author=user, title=title, text=text)[0]
 
+    tags = tags if tags else []
     post_tags = [add_post_tag(tag) for tag in tags]
     post.tags.add(*post_tags)
 
@@ -34,9 +35,9 @@ class BlogTagsTests(TestCase):
 
     def test_get_post_list_with_published_posts(self):
         """get_post_list should return all published posts."""
-        first_post = add_post('Author', 'Title 1', 'Text 1', [])
+        first_post = add_post(title='Title 1', text='Text 1')
         first_post.publish()
-        second_post = add_post('Author', 'Title 2', 'Text 2', [])
+        second_post = add_post(title='Title 2', text='Text 2')
         second_post.publish()
 
         result = get_post_list()
@@ -53,9 +54,9 @@ class BlogTagsTests(TestCase):
 
     def test_get_post_list_with_published_and_unpublished_posts(self):
         """get_post_list should return only published posts."""
-        published_post = add_post('Author', 'Title 1', 'Text 1', [])
+        published_post = add_post(title='Title 1', text='Text 1')
         published_post.publish()
-        unpublished_post = add_post('Author', 'Title 2', 'Text 2', [])
+        unpublished_post = add_post(title='Title 2', text='Text 2')
 
         result = get_post_list()
         result_posts = result['posts'].object_list
@@ -70,11 +71,11 @@ class BlogTagsTests(TestCase):
     def test_get_post_list_with_tag_filter(self):
         """get_post_list should return only published posts for given tag."""
         tag = 'tag1'
-        first_post = add_post('Author', 'Title 1', 'Text 1', [tag])
+        first_post = add_post(title='Title 1', text='Text 1', tags=[tag])
         first_post.publish()
-        second_post = add_post('Author', 'Title 2', 'Text 2', [tag])
+        second_post = add_post(title='Title 2', text='Text 2', tags=[tag])
         second_post.publish()
-        post_without_tag = add_post('Author', 'Title 3', 'Text 3', [])
+        post_without_tag = add_post(title='Title 3', text='Text 3')
         post_without_tag.publish()
 
         result = get_post_list(tag=tag)
@@ -94,7 +95,7 @@ class BlogTagsTests(TestCase):
         """get_post_list should return only published posts for given page."""
         posts = []
         for i in range(10):
-            post = add_post('Author', 'Title {0}'.format(i), 'Text {0}'.format(i), [])
+            post = add_post(title='Title {0}'.format(i), text='Text {0}'.format(i))
             post.publish()
             posts.append(post)
 
@@ -122,7 +123,7 @@ class BlogTagsTests(TestCase):
 class PostTests(TestCase):
     def test_publish_sets_published_date(self):
         """publish should set published_date to the current date and time."""
-        post = add_post('Test Author', 'Test title', 'Test text', [])
+        post = add_post(title='Title 1', text='Text 1')
         time_before_publish = timezone.now()
 
         post.publish()
@@ -133,7 +134,7 @@ class PostTests(TestCase):
 
     def test_creation_date_before_published_date(self):
         """publish should set published_date_later_than_created_date."""
-        post = add_post('Test Author', 'Test title', 'Test text', [])
+        post = add_post(title='Title 1', text='Text 1')
         post.publish()
         post = Post.objects.get(id=post.id)
 
@@ -141,7 +142,7 @@ class PostTests(TestCase):
 
     def test_published_date_not_set_before_publish(self):
         """published_date should not be set before post is published."""
-        post = add_post('Test Author', 'Test title', 'Test text', [])
+        post = add_post(title='Title 1', text='Text 1')
 
         self.assertIsNone(post.published_date)
 
@@ -155,9 +156,9 @@ class PostListTests(TestCase):
 
     def test_post_list_with_published_posts(self):
         """post_list should display all published posts."""
-        first_post = add_post('Test Author', 'Test title 1', 'Test text 1', [])
+        first_post = add_post(title='Title 1', text='Text 1')
         first_post.publish()
-        second_post = add_post('Test Author', 'Test title 2', 'Test text 2', [])
+        second_post = add_post(title='Title 2', text='Text 2')
         second_post.publish()
 
         response = self.client.get(reverse('blog:post_list'))
@@ -170,9 +171,9 @@ class PostListTests(TestCase):
 
     def test_post_list_with_unpublished_posts(self):
         """post_list should only display published posts, not any unpublished posts."""
-        first_post = add_post('Test Author', 'Test title 1', 'Test text 1', [])
+        first_post = add_post(title='Title 1', text='Text 1')
         first_post.publish()
-        second_post = add_post('Test Author', 'Test title 2', 'Test text 2', [])
+        second_post = add_post(title='Title 2', text='Text 2')
 
         response = self.client.get(reverse('blog:post_list'))
 
@@ -185,7 +186,7 @@ class PostListTests(TestCase):
     def test_post_list_tags(self):
         """post_list should display post tags."""
         tags = ['tag1', 'tag2', 'tag3']
-        post = add_post('Author', 'Title', 'Text', tags)
+        post = add_post(title='Title 1', text='Text 1', tags=tags)
         post.publish()
 
         response = self.client.get(reverse('blog:post_list'))
@@ -210,7 +211,7 @@ class PostDetailTests(TestCase):
     def test_post_detail_for_published_post(self):
         """post_detail should display published post content."""
         tags = ['tag1', 'tag2', 'tag3']
-        post = add_post('Author', 'Post Title', 'Text', tags)
+        post = add_post(title='Title 1', text='Text 1', tags=tags)
         post.publish()
 
         url_args = {
