@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 
 from .models import Post, PostTag
+from .templatetags.blog_tags import get_post_list
 
 def add_post_tag(title):
     tag = PostTag.objects.get_or_create(title=title)[0]
@@ -21,6 +22,102 @@ def add_post(author, title, text, tags):
 def add_user(username):
     user = User.objects.get_or_create(username=username)[0]
     return user
+
+class BlogTagsTests(TestCase):
+    def test_get_post_list_with_no_posts(self):
+        """get_post_list should return no posts when none exist."""
+        result = get_post_list()
+
+        self.assertQuerysetEqual(result['posts'].object_list, [])
+        self.assertIsNone(result['tag'])
+        self.assertFalse(result['filtered'])
+
+    def test_get_post_list_with_published_posts(self):
+        """get_post_list should return all published posts."""
+        first_post = add_post('Author', 'Title 1', 'Text 1', [])
+        first_post.publish()
+        second_post = add_post('Author', 'Title 2', 'Text 2', [])
+        second_post.publish()
+
+        result = get_post_list()
+
+        posts = [first_post, second_post]
+        result_posts = result['posts'].object_list
+
+        for post in posts:
+            self.assertTrue(post in result_posts)
+        self.assertEqual(len(result_posts), len(posts))
+
+        self.assertIsNone(result['tag'])
+        self.assertFalse(result['filtered'])
+
+    def test_get_post_list_with_published_and_unpublished_posts(self):
+        """get_post_list should return only published posts."""
+        published_post = add_post('Author', 'Title 1', 'Text 1', [])
+        published_post.publish()
+        unpublished_post = add_post('Author', 'Title 2', 'Text 2', [])
+
+        result = get_post_list()
+        result_posts = result['posts'].object_list
+
+        self.assertTrue(published_post in result_posts)
+        self.assertFalse(unpublished_post in result_posts)
+        self.assertEqual(len(result_posts), 1)
+
+        self.assertIsNone(result['tag'])
+        self.assertFalse(result['filtered'])
+
+    def test_get_post_list_with_tag_filter(self):
+        """get_post_list should return only published posts for given tag."""
+        tag = 'tag1'
+        first_post = add_post('Author', 'Title 1', 'Text 1', [tag])
+        first_post.publish()
+        second_post = add_post('Author', 'Title 2', 'Text 2', [tag])
+        second_post.publish()
+        post_without_tag = add_post('Author', 'Title 3', 'Text 3', [])
+        post_without_tag.publish()
+
+        result = get_post_list(tag=tag)
+
+        posts_with_tag = [first_post, second_post]
+        result_posts = result['posts'].object_list
+
+        for post_with_tag in posts_with_tag:
+            self.assertTrue(post_with_tag in result_posts)
+        self.assertFalse(post_without_tag in result_posts)
+        self.assertEqual(len(result_posts), len(posts_with_tag))
+
+        self.assertEqual(result['tag'], tag)
+        self.assertTrue(result['filtered'])
+
+    def test_get_post_list_with_page_filter(self):
+        """get_post_list should return only published posts for given page."""
+        posts = []
+        for i in range(10):
+            post = add_post('Author', 'Title {0}'.format(i), 'Text {0}'.format(i), [])
+            post.publish()
+            posts.append(post)
+
+        first_page_posts = posts[5:]
+        second_page_posts = posts[:5]
+
+        # Test first page.
+        result = get_post_list(page=1)
+        first_page_result_posts = result['posts'].object_list
+
+        for first_page_post in first_page_posts:
+            self.assertTrue(first_page_post in first_page_result_posts)
+        for second_page_post in second_page_posts:
+            self.assertFalse(second_page_post in first_page_result_posts)
+
+        # Test second page.
+        result = get_post_list(page=2)
+        second_page_result_posts = result['posts'].object_list
+
+        for first_page_post in first_page_posts:
+            self.assertFalse(first_page_post in second_page_result_posts)
+        for second_page_post in second_page_posts:
+            self.assertTrue(second_page_post in second_page_result_posts)
 
 class PostTests(TestCase):
     def test_publish_sets_published_date(self):
@@ -55,7 +152,6 @@ class PostListTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'There are no blog posts.')
-        #self.assertQuerysetEqual(response.context['posts'], [])
 
     def test_post_list_with_published_posts(self):
         """post_list should display all published posts."""
@@ -72,9 +168,6 @@ class PostListTests(TestCase):
         self.assertContains(response, second_post.title)
         self.assertContains(response, second_post.text)
 
-        #post_count = len(response.context['posts'])
-        #self.assertEqual(post_count, 2)
-
     def test_post_list_with_unpublished_posts(self):
         """post_list should only display published posts, not any unpublished posts."""
         first_post = add_post('Test Author', 'Test title 1', 'Test text 1', [])
@@ -88,9 +181,6 @@ class PostListTests(TestCase):
         self.assertContains(response, first_post.text)
         self.assertNotContains(response, second_post.title)
         self.assertNotContains(response, second_post.text)
-
-        #post_count = len(response.context['posts'])
-        #self.assertEqual(post_count, 1)
 
     def test_post_list_tags(self):
         """post_list should display post tags."""
