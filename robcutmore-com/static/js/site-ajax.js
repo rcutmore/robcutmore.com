@@ -1,79 +1,74 @@
 $(document).ready( function() {
+    var tagFilter = function() {
+        var tag = $(this).attr('data-tag');
+
+        var filter;
+        if (tag.length > 0) {
+            filter = {
+                params: {'tag': tag},
+                url = tag + '/',
+            };
+        } else {
+            filter = {
+                params: {},
+                url = '',
+            };
+        }
+
+        return filter;
+    };
+
+    var pageFilter = function() {
+        var page = $(this).attr('data-page');
+        var tag = $(this).attr('data-tag');
+
+        var filter = {};
+        if (page.length > 0) {
+            filter['page'] = page;
+        }
+        if (tag.length > 0) {
+            filter['tag'] = tag;
+        }
+
+        return filter;
+    };
 
     // Filter blog list when tag is clicked.
     $('#post-list').on('click', '.tag', function() {
-        var tag = $(this).attr('data-tag');
+        var filter = tagFilter();
 
-        var params;
-        var urlTag;
-        if (tag.length > 0) {
-            params = {'tag': tag};
-            urlTag = tag + '/';
-        } else {
-            params = {};
-            urlTag = '';
-        }
-
-        $.get('/blog/filter/', params, function(data) {
-            history.pushState({}, '', 'http://robcutmore.com/blog/' + urlTag);
+        $.get('/blog/filter/', filter.params, function(data) {
+            history.pushState({}, '', 'http://robcutmore.com/blog/' + filter.url);
             $('#post-list').html(data);
         });
     });
 
     // Filter blog list when pagination button is clicked.
     $('#post-list').on('click', '.pagination-button', function() {
-        var page = $(this).attr('data-page');
-        var tag = $(this).attr('data-tag');
+        var filter = pageFilter();
 
-        var params = {};
-        if (page.length > 0) {
-            params['page'] = page;
-        }
-        if (tag.length > 0) {
-            params['tag'] = tag;
-        }
-
-        $.get('/blog/filter/', params, function(data) {
-            history.pushState({}, '', '?page=' + page);
+        $.get('/blog/filter/', filter, function(data) {
+            history.pushState({}, '', '?page=' + filter.page);
             $('#post-list').html(data);
         });
     });
 
     // Filter portfolio list when tag is clicked.
     $('#project-list').on('click', '.tag', function() {
-        var tag = $(this).attr('data-tag');
-
-        var params;
-        var urlTag;
-        if (tag.length > 0) {
-            params = {'tag': tag};
-            urlTag = tag + '/'
-        } else {
-            params = {};
-            urlTag = '';
-        }
+        var filter = tagFilter();
         
-        $.get('/portfolio/filter/', params, function(data) {
-            history.pushState({}, '', 'http://robcutmore.com/portfolio/' + urlTag);
+        $.get('/portfolio/filter/', filter.params, function(data) {
+            history.pushState({}, '', 'http://robcutmore.com/portfolio/' + filter.url);
             $('#project-list').html(data);
         });
     });
 
     // Filter project list when pagination button is clicked.
     $('#project-list').on('click', '.pagination-button', function(data) {
-        var page = $(this).attr('data-page');
-        var tag = $(this).attr('data-tag');
+        var filter = pageFilter();
 
-        var params = {};
-        if (page.length > 0) {
-            params['page'] = page;
-        }
-        if (tag.length > 0) {
-            params['tag'] = tag;
-        }
-
-        $.get('/portfolio/filter/', params, function(data) {
-            history.pushState({}, '', '?page=' + page);
+        $.get('/portfolio/filter/', filter, function(data) {
+            history.pushState({}, '', '?page=' + filter.page);
             $('#project-list').html(data);
         });
     });
