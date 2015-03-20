@@ -196,6 +196,30 @@ class PostListTests(TestCase):
         for tag in tags:
             self.assertContains(response, tag)
 
+    def test_post_list_pagination(self):
+        """post_list should display pagination buttons with more than 5 posts."""
+        for i in range(15):
+            post = add_post(title='Title {0}'.format(i), text='Text {0}'.format(i))
+            post.publish()
+
+        url = reverse('blog:post_list')
+
+        # Test first page.
+        response = self.client.get(url)
+        self.assertNotContains(response, 'Previous')
+        self.assertContains(response, 'Next')
+
+        # Test second page.
+        response = self.client.get('{url}?page=2'.format(url=url))
+        self.assertContains(response, 'Previous')
+        self.assertContains(response, 'Next')
+
+        # Test third page.
+        response = self.client.get('{url}?page=3'.format(url=url))
+        self.assertContains(response, 'Previous')
+        self.assertNotContains(response, 'Next')
+
+
 class PostDetailTests(TestCase):
     def test_post_detail_for_nonexistent_post(self):
         """post_detail should show 404 page for non-existent post."""
