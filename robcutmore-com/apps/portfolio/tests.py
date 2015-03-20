@@ -120,3 +120,25 @@ class ProjectListTests(TestCase):
 
         for tag in tags:
             self.assertContains(response, tag)
+
+    def test_project_list_pagination(self):
+        """project_list should display pagination buttons with more than 5 posts."""
+        for i in range(15):
+            add_project(title='{0}'.format(i), description='{0}'.format(i))
+
+        url = reverse('portfolio:project_list')
+
+        # Test first page.
+        response = self.client.get(url)
+        self.assertNotContains(response, 'Previous')
+        self.assertContains(response, 'Next')
+
+        # Test second page.
+        response = self.client.get('{url}?page=2'.format(url=url))
+        self.assertContains(response, 'Previous')
+        self.assertContains(response, 'Next')
+
+        # Test third page.
+        response = self.client.get('{url}?page=3'.format(url=url))
+        self.assertContains(response, 'Previous')
+        self.assertNotContains(response, 'Next')
