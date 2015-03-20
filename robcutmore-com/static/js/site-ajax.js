@@ -1,27 +1,22 @@
 $(document).ready( function() {
-    var tagFilter = function() {
-        var tag = $(this).attr('data-tag');
-
+    var tagFilter = function(tag) {
         var filter;
         if (tag.length > 0) {
             filter = {
-                params: {'tag': tag},
-                url = tag + '/',
+                params: {tag: tag},
+                url: tag + '/'
             };
         } else {
             filter = {
                 params: {},
-                url = '',
+                url: ''
             };
         }
 
         return filter;
     };
 
-    var pageFilter = function() {
-        var page = $(this).attr('data-page');
-        var tag = $(this).attr('data-tag');
-
+    var pageFilter = function(page, tag) {
         var filter = {};
         if (page.length > 0) {
             filter['page'] = page;
@@ -35,7 +30,8 @@ $(document).ready( function() {
 
     // Filter blog list when tag is clicked.
     $('#post-list').on('click', '.tag', function() {
-        var filter = tagFilter();
+        var tag = $(this).attr('data-tag');
+        var filter = tagFilter(tag);
 
         $.get('/blog/filter/', filter.params, function(data) {
             history.pushState({}, '', 'http://robcutmore.com/blog/' + filter.url);
@@ -45,7 +41,9 @@ $(document).ready( function() {
 
     // Filter blog list when pagination button is clicked.
     $('#post-list').on('click', '.pagination-button', function() {
-        var filter = pageFilter();
+        var page = $(this).attr('data-page');
+        var tag = $(this).attr('data-tag');
+        var filter = pageFilter(page, tag);
 
         $.get('/blog/filter/', filter, function(data) {
             history.pushState({}, '', '?page=' + filter.page);
@@ -55,7 +53,8 @@ $(document).ready( function() {
 
     // Filter portfolio list when tag is clicked.
     $('#project-list').on('click', '.tag', function() {
-        var filter = tagFilter();
+        var tag = $(this).attr('data-tag');
+        var filter = tagFilter(tag);
         
         $.get('/portfolio/filter/', filter.params, function(data) {
             history.pushState({}, '', 'http://robcutmore.com/portfolio/' + filter.url);
@@ -65,7 +64,9 @@ $(document).ready( function() {
 
     // Filter project list when pagination button is clicked.
     $('#project-list').on('click', '.pagination-button', function(data) {
-        var filter = pageFilter();
+        var page = $(this).attr('data-page');
+        var tag = $(this).attr('data-tag');
+        var filter = pageFilter(page, tag);
 
         $.get('/portfolio/filter/', filter, function(data) {
             history.pushState({}, '', '?page=' + filter.page);
