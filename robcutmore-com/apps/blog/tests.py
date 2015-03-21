@@ -7,10 +7,16 @@ from .models import Post, PostTag
 from .templatetags.blog_tags import get_post_list
 
 def add_post_tag(title):
+    """
+    Adds and returns a new post tag with the given title.
+    """
     tag = PostTag.objects.get_or_create(title=title)[0]
     return tag
 
 def add_post(title, text, tags=None):
+    """
+    Adds and returns a new post with the given attributes.
+    """
     user = add_user('Test')
     post = Post.objects.get_or_create(author=user, title=title, text=text)[0]
 
@@ -21,12 +27,17 @@ def add_post(title, text, tags=None):
     return post
 
 def add_user(username):
+    """
+    Adds and returns a new user with the given username.
+    """
     user = User.objects.get_or_create(username=username)[0]
     return user
 
 class BlogTagsTests(TestCase):
     def test_get_post_list_with_no_posts(self):
-        """get_post_list should return no posts when none exist."""
+        """
+        get_post_list should return no posts when none exist.
+        """
         result = get_post_list()
 
         self.assertQuerysetEqual(result['posts'].object_list, [])
@@ -34,7 +45,9 @@ class BlogTagsTests(TestCase):
         self.assertFalse(result['filtered'])
 
     def test_get_post_list_with_published_posts(self):
-        """get_post_list should return all published posts."""
+        """
+        get_post_list should return all published posts.
+        """
         first_post = add_post(title='Title 1', text='Text 1')
         first_post.publish()
         second_post = add_post(title='Title 2', text='Text 2')
@@ -53,7 +66,9 @@ class BlogTagsTests(TestCase):
         self.assertFalse(result['filtered'])
 
     def test_get_post_list_with_published_and_unpublished_posts(self):
-        """get_post_list should return only published posts."""
+        """
+        get_post_list should return only published posts.
+        """
         published_post = add_post(title='Title 1', text='Text 1')
         published_post.publish()
         unpublished_post = add_post(title='Title 2', text='Text 2')
@@ -69,7 +84,9 @@ class BlogTagsTests(TestCase):
         self.assertFalse(result['filtered'])
 
     def test_get_post_list_with_tag_filter(self):
-        """get_post_list should return only published posts for given tag."""
+        """
+        get_post_list should return only published posts for given tag.
+        """
         tag = 'tag1'
         first_post = add_post(title='Title 1', text='Text 1', tags=[tag])
         first_post.publish()
@@ -92,7 +109,9 @@ class BlogTagsTests(TestCase):
         self.assertTrue(result['filtered'])
 
     def test_get_post_list_with_page_filter(self):
-        """get_post_list should return only published posts for given page."""
+        """
+        get_post_list should return only published posts for given page.
+        """
         posts = []
         for i in range(10):
             post = add_post(title='Title {0}'.format(i), text='Text {0}'.format(i))
@@ -122,7 +141,9 @@ class BlogTagsTests(TestCase):
 
 class PostTests(TestCase):
     def test_publish_sets_published_date(self):
-        """publish should set published_date to the current date and time."""
+        """
+        publish should set published_date to the current date and time.
+        """
         post = add_post(title='Title 1', text='Text 1')
         time_before_publish = timezone.now()
 
@@ -133,7 +154,9 @@ class PostTests(TestCase):
         self.assertTrue(time_before_publish <= post.published_date)
 
     def test_creation_date_before_published_date(self):
-        """publish should set published_date_later_than_created_date."""
+        """
+        publish should set published_date later than created_date.
+        """
         post = add_post(title='Title 1', text='Text 1')
         post.publish()
         post = Post.objects.get(id=post.id)
@@ -141,21 +164,27 @@ class PostTests(TestCase):
         self.assertTrue(post.created_date <= post.published_date)
 
     def test_published_date_not_set_before_publish(self):
-        """published_date should not be set before post is published."""
+        """
+        published_date should not be set before post is published.
+        """
         post = add_post(title='Title 1', text='Text 1')
 
         self.assertIsNone(post.published_date)
 
 class PostListTests(TestCase):
     def test_post_list_with_no_posts(self):
-        """post_list should display message when no posts exist."""
+        """
+        post_list should display message when no posts exist.
+        """
         response = self.client.get(reverse('blog:post_list'))
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'There are no blog posts.')
 
     def test_post_list_with_published_posts(self):
-        """post_list should display all published posts."""
+        """
+        post_list should display all published posts.
+        """
         first_post = add_post(title='Title 1', text='Text 1')
         first_post.publish()
         second_post = add_post(title='Title 2', text='Text 2')
@@ -170,7 +199,9 @@ class PostListTests(TestCase):
         self.assertContains(response, second_post.text)
 
     def test_post_list_with_unpublished_posts(self):
-        """post_list should only display published posts, not any unpublished posts."""
+        """
+        post_list should only display published posts, not any unpublished posts.
+        """
         first_post = add_post(title='Title 1', text='Text 1')
         first_post.publish()
         second_post = add_post(title='Title 2', text='Text 2')
@@ -184,7 +215,9 @@ class PostListTests(TestCase):
         self.assertNotContains(response, second_post.text)
 
     def test_post_list_tags(self):
-        """post_list should display post tags."""
+        """
+        post_list should display post tags.
+        """
         tags = ['tag1', 'tag2', 'tag3']
         post = add_post(title='Title 1', text='Text 1', tags=tags)
         post.publish()
@@ -197,7 +230,9 @@ class PostListTests(TestCase):
             self.assertContains(response, tag)
 
     def test_post_list_pagination(self):
-        """post_list should display pagination buttons with more than 5 posts."""
+        """
+        post_list should display pagination buttons with more than 5 posts.
+        """
         for i in range(15):
             post = add_post(title='Title {0}'.format(i), text='Text {0}'.format(i))
             post.publish()
@@ -222,7 +257,9 @@ class PostListTests(TestCase):
 
 class PostDetailTests(TestCase):
     def test_post_detail_for_nonexistent_post(self):
-        """post_detail should show 404 page for non-existent post."""
+        """
+        post_detail should show 404 page for non-existent post.
+        """
         url_args = {
             'post_month': 1,
             'post_day': 1,
@@ -233,7 +270,9 @@ class PostDetailTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_post_detail_for_published_post(self):
-        """post_detail should display published post content."""
+        """
+        post_detail should display published post content.
+        """
         tags = ['tag1', 'tag2', 'tag3']
         post = add_post(title='Title 1', text='Text 1', tags=tags)
         post.publish()

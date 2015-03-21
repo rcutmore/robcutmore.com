@@ -5,10 +5,16 @@ from .models import Project, ProjectTag
 from .templatetags.portfolio_tags import get_project_list
 
 def add_project_tag(title):
+    """
+    Adds and returns a new project tag with the given title.
+    """
     tag = ProjectTag.objects.get_or_create(title=title)[0]
     return tag
 
 def add_project(title, description, url='http://test.com', tags=None):
+    """
+    Adds and returns a new project with the given attributes.
+    """
     project = Project.objects.get_or_create(
         title=title, description=description, url=url)[0]
 
@@ -20,7 +26,9 @@ def add_project(title, description, url='http://test.com', tags=None):
 
 class PortfolioTagsTests(TestCase):
     def test_get_project_list_with_no_projects(self):
-        """get_project_list should return no projects when none exist."""
+        """
+        get_project_list should return no projects when none exist.
+        """
         result = get_project_list()
 
         self.assertQuerysetEqual(result['projects'].object_list, [])
@@ -28,7 +36,9 @@ class PortfolioTagsTests(TestCase):
         self.assertFalse(result['filtered'])
 
     def test_get_project_list_with_projects(self):
-        """get_project_list should return existing projects."""
+        """
+        get_project_list should return existing projects.
+        """
         first_project = add_project(title='1', description='1')
         second_project = add_project(title='2', description='2')
 
@@ -45,7 +55,9 @@ class PortfolioTagsTests(TestCase):
         self.assertFalse(result['filtered'])
 
     def test_get_project_list_with_tag_filter(self):
-        """get_project_list should return only projects with given tag."""
+        """
+        get_project_list should return only projects with given tag.
+        """
         tag = 'tag1'
         first_project = add_project(title='1', description='1', tags=[tag])
         second_project = add_project(title='2', description='2', tags=[tag])
@@ -65,7 +77,9 @@ class PortfolioTagsTests(TestCase):
         self.assertEqual(result['tag'], tag)
 
     def test_get_project_list_with_page_filter(self):
-        """get_project_list should return only projects for given page."""
+        """
+        get_project_list should return only projects for given page.
+        """
         projects = [add_project(title=str(i), description=str(i)) for i in range(10)]
         first_page_projects = projects[:5]
         second_page_projects = projects[5:]
@@ -90,14 +104,18 @@ class PortfolioTagsTests(TestCase):
 
 class ProjectListTests(TestCase):
     def test_project_list_with_no_projects(self):
-        """project_list should display message when no projects exist."""
+        """
+        project_list should display message when no projects exist.
+        """
         response = self.client.get(reverse('portfolio:project_list'))
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'There are no portfolio projects.')
 
     def test_project_list_with_projects(self):
-        """project_list should display all projects."""
+        """
+        project_list should display all projects.
+        """
         first_project = add_project(title='1', description='1')
         second_project = add_project(title='2', description='2')
 
@@ -110,7 +128,9 @@ class ProjectListTests(TestCase):
         self.assertContains(response, second_project.description)
 
     def test_project_list_tags(self):
-        """project_list should display project tags."""
+        """
+        project_list should display project tags.
+        """
         tags = ['tag1', 'tag2', 'tag3']
         project = add_project(title='1', description='1', tags=tags)
 
@@ -122,7 +142,9 @@ class ProjectListTests(TestCase):
             self.assertContains(response, tag)
 
     def test_project_list_pagination(self):
-        """project_list should display pagination buttons with more than 5 posts."""
+        """
+        project_list should display pagination buttons with more than 5 posts.
+        """
         for i in range(15):
             add_project(title='{0}'.format(i), description='{0}'.format(i))
 
