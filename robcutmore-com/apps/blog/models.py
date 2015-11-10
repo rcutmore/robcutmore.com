@@ -7,8 +7,8 @@ from django.utils import timezone
 class PostTag(models.Model):
     """A blog post tag.
 
-    Used to categorize of blog posts, allowing posts to be filtered
-    and grouped by a particular topic.
+    Used to categorize blog posts, allowing posts to be filtered and
+    grouped by a particular topic.
 
     :param title: The tag's title. This describes the topic or category
         a particular tag represents.
