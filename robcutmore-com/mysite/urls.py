@@ -1,9 +1,27 @@
-from django.conf.urls import patterns, include, url
+"""
+Contains main project URLs.
+"""
+from django.conf.urls import include, url
 from django.contrib import admin
 
-urlpatterns = patterns('',
-    url(r'^$', 'mysite.views.about', name='about'),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^blog/', include('apps.blog.urls', namespace='blog')),
-    url(r'^portfolio/', include('apps.portfolio.urls', namespace='portfolio')),
-)
+from . import views
+
+
+urlpatterns = [
+    # This is the main page which is an about page.
+    url(r'^$',
+        views.about,
+        name='about'),
+
+    # All admin URLs.
+    url(r'^admin/',
+        include(admin.site.urls)),
+
+    # All blog app URLs.
+    url(r'^blog/',
+        include('apps.blog.urls', namespace='blog')),
+
+    # All portfolio app URLs.
+    url(r'^portfolio/',
+        include('apps.portfolio.urls', namespace='portfolio')),
+]
