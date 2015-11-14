@@ -1,7 +1,11 @@
+# Python
 *.pyc
-myenv
 __pycache__
-local_settings.py
-static_final
+
+# Database
 db.sqlite3
 *.sql
+
+# Miscellaneous
+env
+static_final
