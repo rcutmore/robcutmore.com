@@ -1,3 +1,2 @@
-#!/bin/bash
-
-psql -f db.sql
+#!/usr/bin/env bash
+psql --file=robcutmore.sql
