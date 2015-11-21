@@ -31,7 +31,7 @@ class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     url = models.URLField()
-    tags = models.ManyToManyField(ProjectTag, null=True)
+    tags = models.ManyToManyField(ProjectTag, blank=True)
 
     def __str__(self):
         return self.title
