@@ -27,11 +27,17 @@ class Project(models.Model):
     :param url: URL of project.
     :param tags: Project's assigned :class:`ProjectTag` objects
         (categories).
+    :param pinned: Whether or not project should be pinned to top of
+        portfolio list. Default is false.
     """
     title = models.CharField(max_length=200)
     description = models.TextField()
     url = models.URLField(blank=True)
     tags = models.ManyToManyField(ProjectTag, blank=True)
+    pinned = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ('-pinned', '-id',)

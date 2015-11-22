@@ -17,18 +17,19 @@ def add_project_tag(title):
     return ProjectTag.objects.get_or_create(title=title)[0]
 
 
-def add_project(title, description, url='http://test.com', tags=None):
+def add_project(title, description, url='http://test.com', tags=None, pinned=False):
     """Add new project with given attributes.
 
     :param title: Title of project.
     :param description: Description of project.
     :param url: URL for project.
     :param tags: Tags to assign project.
+    :param pinned: Whether or not project should be pinned.
     :returns: :class:`Project` object.
     """
     # Create project.
     project = Project.objects.get_or_create(
-        title=title, description=description, url=url)[0]
+        title=title, description=description, url=url, pinned=pinned)[0]
 
     # Add tags to project.
     tags = tags if tags else []
@@ -92,25 +93,45 @@ class PortfolioTemplateTagsTests(TestCase):
         projects = [
             add_project(title=str(i), description=str(i)) for i in range(10)
         ]
-
-        first_page_projects = projects[:5]
-        second_page_projects = projects[5:]
+        pages = {
+            1: projects[5:],
+            2: projects[:5],
+        }
 
         # Check first page results.
         result = get_project_list(page=1)
         first_page_results = result['projects'].object_list
-        for first_page_project in first_page_projects:
+        for first_page_project in pages[1]:
             self.assertTrue(first_page_project in first_page_results)
         self.assertFalse(
-            any(project in first_page_results for project in second_page_projects))
+            any(project in first_page_results for project in pages[2]))
 
         # Check second page results.
         result = get_project_list(page=2)
         second_page_results = result['projects'].object_list
         self.assertFalse(
-            any(project in second_page_results for project in first_page_projects))
-        for second_page_project in second_page_projects:
+            any(project in second_page_results for project in pages[1]))
+        for second_page_project in pages[2]:
             self.assertTrue(second_page_project in second_page_results)
+
+
+class ProjectTests(TestCase):
+    """Tests :class:`Project` object model."""
+
+    def test_pinned_ordering(self):
+        """Pinned projects should be sorted before unpinned projects."""
+        # Add test projects.
+        add_project(title='Title 1', description='Project 1', pinned=False)
+        add_project(title='Title 2', description='Project 2', pinned=True)
+        add_project(title='Title 3', description='Project 3', pinned=False)
+        add_project(title='Title 4', description='Project 4', pinned=True)
+        add_project(title='Title 5', description='Project 5', pinned=False)
+
+        # Make sure pinned projects are retrieved before unpinned.
+        projects = Project.objects.all()
+        for index, project in enumerate(projects):
+            if index > 0 and not projects[index-1].pinned and project.pinned:
+                self.fail('Unpinned project retrieved before pinned project.')
 
 
 class ProjectListTests(TestCase):
