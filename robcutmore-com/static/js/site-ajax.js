@@ -1,6 +1,13 @@
 $(document).ready( function() {
 
     /**
+     * Scrolls to top of page.
+     */
+    var scrollToTop = function() {
+        $('html, body').animate({ scrollTop: 0 }, 'slow');
+    }
+
+    /**
      * Determines filter parameters for given tag.
      * @param {string} tag Tag to filter for.
      * @return {object} GET request parameters and filtered URL page.
@@ -54,6 +61,7 @@ $(document).ready( function() {
             history.pushState({}, '', 'http://robcutmore.com/blog/' + filter.url);
             $('#post-list').html(data);
         });
+        scrollToTop();
     });
 
     /**
@@ -70,6 +78,7 @@ $(document).ready( function() {
             history.pushState({}, '', '?page=' + filter.page);
             $('#post-list').html(data);
         });
+        scrollToTop();
     });
 
     /**
@@ -85,6 +94,7 @@ $(document).ready( function() {
             history.pushState({}, '', 'http://robcutmore.com/portfolio/' + filter.url);
             $('#project-list').html(data);
         });
+        scrollToTop();
     });
 
     /**
@@ -101,6 +111,7 @@ $(document).ready( function() {
             history.pushState({}, '', '?page=' + filter.page);
             $('#project-list').html(data);
         });
+        scrollToTop();
     });
 
 });
