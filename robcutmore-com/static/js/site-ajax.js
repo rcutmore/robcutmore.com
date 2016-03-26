@@ -58,7 +58,7 @@ $(document).ready( function() {
 
         // Filter posts and update URL for browser.
         $.get('/blog/filter/', filter.params, function(data) {
-            history.pushState({}, '', 'http://robcutmore.com/blog/' + filter.url);
+            history.pushState({}, '', 'http://www.robcutmore.com/blog/' + filter.url);
             $('#post-list').html(data);
         });
         scrollToTop();
@@ -91,7 +91,7 @@ $(document).ready( function() {
 
         // Filter projects and update URL for browser.
         $.get('/portfolio/filter/', filter.params, function(data) {
-            history.pushState({}, '', 'http://robcutmore.com/portfolio/' + filter.url);
+            history.pushState({}, '', 'http://www.robcutmore.com/portfolio/' + filter.url);
             $('#project-list').html(data);
         });
         scrollToTop();
