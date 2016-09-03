@@ -1,7 +1,3 @@
-from configparser import RawConfigParser
-config = RawConfigParser()
-config.read('/etc/robcutmore/settings.ini')
-
 """
 Django settings for mysite project.
 
@@ -11,9 +7,16 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
+from configparser import RawConfigParser
+import os
+
+
+# Read project settings file
+config = RawConfigParser()
+config.read('/etc/robcutmore/settings.ini')
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -73,6 +76,7 @@ DATABASES = {
         'PORT': config.get('database', 'DATABASE_PORT'),
     }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
