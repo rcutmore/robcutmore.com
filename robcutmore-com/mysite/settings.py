@@ -29,8 +29,6 @@ SECRET_KEY = config.get('project', 'SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config.getboolean('project', 'DEBUG')
 
-TEMPLATE_DEBUG = config.getboolean('project', 'TEMPLATE_DEBUG')
-
 ALLOWED_HOSTS = ['.robcutmore.com']
 
 
@@ -124,7 +122,8 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-            ]
-        }
-    }
+            ],
+            'debug': config.getboolean('project', 'TEMPLATE_DEBUG'),
+        },
+    },
 ]
