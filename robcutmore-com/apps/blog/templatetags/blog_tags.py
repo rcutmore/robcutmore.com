@@ -3,6 +3,7 @@ Contains custom templatetags for blog app.
 """
 from django import template
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
 
 from ..models import Post
 
@@ -22,12 +23,17 @@ def get_post_list(page=None, tag=None):
         posts are filtered for a tag.
     """
     # Filter posts if given valid tag otherwise get all posts.
+    now = timezone.now()
     if tag:
-        all_posts = Post.objects.filter(published_date__isnull=False,
-                                        tags__title=tag)
+        all_posts = Post.objects.filter(
+            published_date__isnull=False,
+            published_date__lte=now,
+            tags__title=tag)
         filtered = True
     else:
-        all_posts = Post.objects.filter(published_date__isnull=False)
+        all_posts = Post.objects.filter(
+            published_date__isnull=False,
+            published_date__lte=now)
         filtered = False
 
     # Show 5 posts per page.
