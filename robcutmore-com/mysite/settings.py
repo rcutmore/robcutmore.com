@@ -7,13 +7,13 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
-from configparser import RawConfigParser
 import os
+from configparser import RawConfigParser
 
 
 # Read project settings file
-config = RawConfigParser()
-config.read('/etc/robcutmore/settings.ini')
+CONFIG = RawConfigParser()
+CONFIG.read('/etc/robcutmore/settings.ini')
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,10 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.get('project', 'SECRET_KEY')
+SECRET_KEY = CONFIG.get('project', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config.getboolean('project', 'DEBUG')
+DEBUG = CONFIG.getboolean('project', 'DEBUG')
 
 ALLOWED_HOSTS = ['.robcutmore.com']
 
@@ -66,12 +66,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': config.get('database', 'DATABASE_ENGINE'),
-        'NAME': config.get('database', 'DATABASE_NAME'),
-        'USER': config.get('database', 'DATABASE_USER'),
-        'PASSWORD': config.get('database', 'DATABASE_PASSWORD'),
-        'HOST': config.get('database', 'DATABASE_HOST'),
-        'PORT': config.get('database', 'DATABASE_PORT'),
+        'ENGINE': CONFIG.get('database', 'DATABASE_ENGINE'),
+        'NAME': CONFIG.get('database', 'DATABASE_NAME'),
+        'USER': CONFIG.get('database', 'DATABASE_USER'),
+        'PASSWORD': CONFIG.get('database', 'DATABASE_PASSWORD'),
+        'HOST': CONFIG.get('database', 'DATABASE_HOST'),
+        'PORT': CONFIG.get('database', 'DATABASE_PORT'),
     }
 }
 
@@ -123,7 +123,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
             ],
-            'debug': config.getboolean('project', 'TEMPLATE_DEBUG'),
+            'debug': CONFIG.getboolean('project', 'TEMPLATE_DEBUG'),
         },
     },
 ]
