@@ -1,6 +1,8 @@
 """
 Contains tests for blog app.
 """
+from datetime import timedelta
+
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -218,6 +220,20 @@ class PostListTests(TestCase):
         self.assertNotContains(response, unpublished_post.title)
         self.assertNotContains(response, unpublished_post.text)
 
+    def test_post_published_in_future(self):
+        """Make sure posts with future published date aren't shown."""
+        # Create post with future published date.
+        post = add_post(title='Title 1', text='Text 1')
+        post.publish()
+        post.published_date += timedelta(days=1)
+        post.save()
+
+        # Make sure post is not listed in post list.
+        response = self.client.get(reverse('blog:post_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, post.title)
+        self.assertNotContains(response, post.text)
+
     def test_post_list_tags(self):
         """post_list should display post tags."""
         # Publish test post with tags.
@@ -295,3 +311,20 @@ class PostDetailTests(TestCase):
         self.assertContains(response, post.text)
         for tag in tags:
             self.assertContains(response, tag)
+
+    def test_post_published_in_future(self):
+        """Make sure post with future published date not accessible."""
+        # Create post with future published date.
+        post = add_post(title='Title 1', text='Text 1')
+        post.publish()
+        post.published_date += timedelta(days=1)
+        post.save()
+
+        kwargs = {
+            'post_month': post.published_date.month,
+            'post_day': post.published_date.day,
+            'post_year': post.published_date.year,
+            'post_slug': post.slug,
+        }
+        response = self.client.get(reverse('blog:post_detail', kwargs=kwargs))
+        self.assertEqual(response.status_code, 404)
