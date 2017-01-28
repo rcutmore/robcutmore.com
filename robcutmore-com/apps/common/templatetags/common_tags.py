@@ -19,5 +19,6 @@ def markdownify(markdown_text):
     extensions = [
         'markdown.extensions.codehilite',
         'markdown.extensions.fenced_code',
+        'markdown.extensions.nl2br',
     ]
     return markdown.markdown(markdown_text, extensions=extensions)
