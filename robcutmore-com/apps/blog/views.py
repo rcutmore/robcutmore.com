@@ -4,6 +4,7 @@ Contains views for blog app.
 from datetime import date
 
 from django.shortcuts import get_object_or_404, render
+from django.utils import timezone
 
 from .models import Post
 from .templatetags.blog_tags import get_post_list
@@ -43,7 +44,10 @@ def post_detail(request, post_month, post_day, post_year, post_slug):
     """
     published_date = date(int(post_year), int(post_month), int(post_day))
     post = get_object_or_404(
-        Post, slug=post_slug, published_date__contains=published_date)
+        Post,
+        slug=post_slug,
+        published_date__contains=published_date,
+        published_date__lte=timezone.now())
     context_dict = {'post': post, 'active_page': 'blog'}
     return render(request, 'blog/post_detail.html', context_dict)
 
