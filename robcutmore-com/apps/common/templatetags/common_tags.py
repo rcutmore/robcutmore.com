@@ -3,7 +3,7 @@ Contains custom project-wide templatetags.
 """
 from django import template
 
-from markdown import markdown
+import markdown
 
 
 register = template.Library()
@@ -16,4 +16,8 @@ def markdownify(markdown_text):
     :param markdown_text: Markdown text to render.
     :returns: Rendered Markdown.
     """
-    return markdown(markdown_text)
+    extensions = [
+        'markdown.extensions.codehilite',
+        'markdown.extensions.fenced_code',
+    ]
+    return markdown.markdown(markdown_text, extensions=extensions)
