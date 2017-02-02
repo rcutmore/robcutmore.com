@@ -17,6 +17,7 @@ def markdownify(markdown_text):
     :returns: Rendered Markdown.
     """
     extensions = [
+        'markdown.extensions.attr_list',
         'markdown.extensions.codehilite',
         'markdown.extensions.fenced_code',
         'markdown.extensions.nl2br',
