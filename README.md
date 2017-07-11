@@ -7,5 +7,5 @@ written in Markdown. Blog and portfolio lists can be filtered by various tags.
 Tag filtering utilizes Ajax calls by default but also works when JavaScript is
 disabled.
 
-There is an Ansible playbook available [here](https://github.com/rcutmore/robcutmore.com-ansible) for setting up a server to run this project.
+There is an Ansible playbook available [here](https://github.com/rcutmore/robcutmore.com-setup) for setting up a server to run this project.
 
