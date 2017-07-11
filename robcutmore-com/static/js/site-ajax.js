@@ -15,7 +15,7 @@ $(document).ready( function() {
     var tagFilter = function(tag) {
         // If there is a tag then set required information for filter
         // otherwise set blank data which will result in no filter.
-        var filter;
+        let filter;
         if (tag.length > 0) {
             filter = {
                 params: {tag: tag},
@@ -38,7 +38,7 @@ $(document).ready( function() {
      */
     var pageFilter = function(page, tag) {
         // Only set parameters if they aren't blank.
-        var filter = {};
+        let filter = {};
         if (page.length > 0) {
             filter['page'] = page;
         }
@@ -53,12 +53,14 @@ $(document).ready( function() {
      */
     $('#post-list').on('click', '.tag', function() {
         // Get filter parameters.
-        var tag = $(this).attr('data-tag');
-        var filter = tagFilter(tag);
+        let tag = $(this).attr('data-tag');
+        let filter = tagFilter(tag);
 
         // Filter posts and update URL for browser.
         $.get('/blog/filter/', filter.params, function(data) {
-            history.pushState({}, '', 'http://www.robcutmore.com/blog/' + filter.url);
+            let protocol = window.location.protocol;
+            let url = protocol + '//www.robcutmore.com/blog/' + filter.url;
+            history.pushState({}, '', url);
             $('#post-list').html(data);
         });
         scrollToTop();
@@ -69,9 +71,9 @@ $(document).ready( function() {
      */
     $('#post-list').on('click', '.pagination-button', function() {
         // Get filter parameters.
-        var page = $(this).attr('data-page');
-        var tag = $(this).attr('data-tag');
-        var filter = pageFilter(page, tag);
+        let page = $(this).attr('data-page');
+        let tag = $(this).attr('data-tag');
+        let filter = pageFilter(page, tag);
 
         // Filter posts and update URL for browser.
         $.get('/blog/filter/', filter, function(data) {
@@ -86,12 +88,14 @@ $(document).ready( function() {
      */
     $('#project-list').on('click', '.tag', function() {
         // Get filter parameters.
-        var tag = $(this).attr('data-tag');
-        var filter = tagFilter(tag);
+        let tag = $(this).attr('data-tag');
+        let filter = tagFilter(tag);
 
         // Filter projects and update URL for browser.
         $.get('/portfolio/filter/', filter.params, function(data) {
-            history.pushState({}, '', 'http://www.robcutmore.com/portfolio/' + filter.url);
+            let protocol = window.location.protocol;
+            let url = protocol + '//www.robcutmore.com/portfolio/' + filter.url;
+            history.pushState({}, '', url);
             $('#project-list').html(data);
         });
         scrollToTop();
@@ -102,9 +106,9 @@ $(document).ready( function() {
      */
     $('#project-list').on('click', '.pagination-button', function(data) {
         // Get filter parameters.
-        var page = $(this).attr('data-page');
-        var tag = $(this).attr('data-tag');
-        var filter = pageFilter(page, tag);
+        let page = $(this).attr('data-page');
+        let tag = $(this).attr('data-tag');
+        let filter = pageFilter(page, tag);
 
         // Filter projects and update URL for browser.
         $.get('/portfolio/filter/', filter, function(data) {
