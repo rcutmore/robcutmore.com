@@ -1,7 +1,7 @@
-Django==1.8.18
-django-autoslug==1.9.3
+Django==1.11.9
+django-autoslug-iplweb==1.9.4.dev0
 gunicorn==19.7.1
-Markdown==2.6.8
-psycopg2==2.7.1
+Markdown==2.6.11
+psycopg2==2.7.3.2
 Pygments==2.2.0
 
